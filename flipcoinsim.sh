@@ -1,10 +1,31 @@
 #! /bin/bash
 
-coin=$(( RANDOM%2 ))
+counthead=0
+counttail=0
+function coins(){
+	coin=$(( RANDOM%2 ))
+       	if [ $coin -eq 1 ]
+       	then
+       	        ((counthead++))
+	else
+		((counttail++))
+        fi
+}
+while [ $counthead -lt 21 ] && [ $counttail -lt 21 ]
+do
+        coins
+done
+echo "Head count:$counthead"
+echo "Tail count:$counttail"
 
-if [ $coin -eq 1 ]
+if [ $counthead -ge $counttail ]
 then
-	echo Head
+        diff=$(( counthead-counttail ))
+        echo "Head wins by $diff"
+elif [ $counttail -eq $counthead ]
+then
+	coins
 else
-	echo Tail
+        diff=$(( counttail-counthead ))
+        echo "Tail wins by $diff"
 fi
